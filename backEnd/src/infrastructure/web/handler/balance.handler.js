@@ -51,7 +51,7 @@ module.exports = (repository) => {
             currentBalance.balance = discount(balance, currentBalance.balance)
             Balance.update({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
                 .then((r) => {
-                    saveHistory(req = { rut: rut, balance: balance, to: rut, action: "deposit"})
+                    saveHistory(req = { rut: rut, balance: balance, to: rut, action: "withdraw"})
                     res.status(OK).json(`Balance have been withdraw successfull`)})
                 .catch((e) => res.status(INTERNAL_SERVER_ERROR).send(e));
             // let currentBalance = await findCurrentBalance(rut);
