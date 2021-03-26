@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { MenuComponent } from './menu/menu.component';
 import { HomeComponent } from './home/home.component';
 import { DepositComponent } from './deposit/deposit.component';
+import { SessionComponent } from './session/session.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { DepositComponent } from './deposit/deposit.component';
     RegisterComponent,
     MenuComponent,
     HomeComponent,
-    DepositComponent
+    DepositComponent,
+    SessionComponent
   ],
   imports: [
     BrowserModule,

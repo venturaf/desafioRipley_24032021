@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 // import { Login } from './login';
 // import { LoginsService } from './login.service';
@@ -10,10 +11,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+    
     formLogin: FormGroup;
-    loginCorrect: Boolean = null;
-    cargando: boolean = true;
+    @Input()
+    loginCorrect: Boolean = false;
+    @Input()
+    cargando: boolean = false;
     message: String = "";
+    sessionVar: boolean = false;
     // LoginsService: LoginsService
     // loginVar: Login[];
 
@@ -33,15 +39,16 @@ export class LoginComponent implements OnInit {
 
   login(){
       if(this.formLogin.valid){
-          this.cargando = false;
-          setTimeout(() => {
-          this.cargando = true;
-      }, 2000);
-          this.loginCorrect = true;
-          let rut = this.formLogin.value.rut
-          let clave = this.formLogin.value.clave
-          console.log(`${rut} ${clave}`);
-          this.message = "Ingresando ..."
+        this.cargando = true;
+        let rut = this.formLogin.value.rut
+        let clave = this.formLogin.value.clave
+        console.log(`${rut} ${clave}`);
+        this.message = "Ingresando ..."
+        setTimeout(() => {
+            this.sessionVar = true;
+            this.loginCorrect = true;
+            this.cargando = false;
+        }, 2000);
       } else {
         this.loginCorrect = false;
         this.message = "Usuario o clave incorrecta."

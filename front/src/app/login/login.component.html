@@ -3,32 +3,33 @@
         <img src="assets/img/ripleyImg.png" alt="Bienvenido a ripley">
         <h3>Ingresa a tu cuenta</h3>
     </div>
-    <div *ngIf="!cargando" class="text-center">
+    <div *ngIf="cargando" class="text-center">
             <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
-    <form [formGroup]="formLogin" *ngIf="cargando" >
-        <div class="mb-3">
-            <label for="rut" class="form-label">RUT</label>
-            <input type="rut" class="form-control" id="rut" formControlName="rut" aria-describedby="rutHelp" placeholder="Ingresa tu Rut">
-
-        </div>
-        <div class="mb-3">
-            <label for="clave" class="form-label">Clave</label>
-            <input type="password" (keyUp.enter)="login()" class="form-control" id="clave" formControlName="clave" placeholder="••••">
-        </div>
-        <button type="submit" [disabled]="!formLogin.valid" (click)="login()" class="btn btn-primary">Ingresar</button>
-    </form>
-    <br>
-    <div *ngIf="!loginCorrect == null">
-        <div *ngIf="!loginCorrect" class="alert alert-warning" role="alert">
-            {{message}}
-        </div>
-        <div *ngIf="loginCorrect" class="alert alert-warning" role="alert">
-            {{message}}
-        </div>
-    </div>
     <div>
-        <button class="btn btn-link" [routerLink]="['/register']" routerLinkActive="router-link-active" >Registrarse</button>
-        <a href=""></a>
+        <form [formGroup]="formLogin" *ngIf="!cargando" >
+            <div class="mb-3">
+                <label for="rut" class="form-label">RUT</label>
+                <input type="rut" class="form-control" id="rut" formControlName="rut" aria-describedby="rutHelp" placeholder="Ingresa tu Rut">
+            </div>
+            <div class="mb-3">
+                <label for="clave" class="form-label">Clave</label>
+                <input type="password" (keyUp.enter)="login()" class="form-control" id="clave" formControlName="clave" placeholder="••••">
+            </div>
+            <button type="submit" [disabled]="!formLogin.valid" (click)="login()" class="btn btn-primary">Ingresar</button>
+        </form>
+        <br>
+        <div *ngIf="!loginCorrect == null">
+            <div *ngIf="!loginCorrect" class="alert alert-warning" role="alert">
+                {{message}}
+            </div>
+            <div *ngIf="loginCorrect" class="alert alert-warning" role="alert">
+                {{message}}
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-link" [routerLink]="['/register']" routerLinkActive="router-link-active" >Registrarse</button>
+            <a href=""></a>
+        </div>
     </div>
 </div>
