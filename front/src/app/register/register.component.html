@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="text-center">
+        <img src="assets/img/ripleyImg.png" alt="Bienvenido a ripley">
+        <h3>Registra a tu cuenta</h3>
+    </div>
+    <div *ngIf="!cargando" class="text-center">
+            <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <form [formGroup]="formLogin" *ngIf="cargando" >
+        <div class="mb-3">
+            <label for="rut" class="form-label">RUT</label>
+            <input type="rut" class="form-control" id="rut" formControlName="rut" aria-describedby="rutHelp" placeholder="Ingresa tu Rut">
+
+        </div>
+        <label for="email">Correo Electronico</label>
+            <input type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" placeholder="Ingrese su correo electronico">
+            <div *ngIf="formLogin.controls['email'].invalid && formLogin.controls['email'].dirty" class="alert alert-danger" role="alert">
+            <span *ngIf="formLogin.controls['email'].errors.required">  Correo es requerido</span>
+            <span *ngIf="formLogin.controls['email'].errors.email">Correo no es Valido</span>
+        </div>
+        <div class="mb-3">
+            <label for="clave" class="form-label">Clave</label>
+            <input type="password" (keyUp.enter)="login()" class="form-control" id="clave" formControlName="clave" placeholder="••••">
+        </div>
+        <button type="submit" [disabled]="!formLogin.valid" (click)="login()" class="btn btn-primary">Registrar</button>
+    </form>
+    <br>
+    <div *ngIf="!loginCorrect == null">
+        <div *ngIf="!loginCorrect" class="alert alert-warning" role="alert">
+            {{message}}
+        </div>
+        <div *ngIf="loginCorrect" class="alert alert-warning" role="alert">
+            {{message}}
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-link" [routerLink]="['/login']" routerLinkActive="router-link-active" >Volver</button>
+        <a href=""></a>
+    </div>
+</div>
