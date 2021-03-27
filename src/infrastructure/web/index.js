@@ -10,13 +10,9 @@ const { PORT } = process.env;
 module.exports = (express,repository) => {
     const app = express();
     const router = express.Router();
-
-    var express = require('express')
-    var cors = require('cors')
-    var app = express()
+    const cors = require('cors');
     
-    app.use(cors())
-
+    app.use(cors());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
