@@ -9,18 +9,10 @@ const { balanceSchema } = require('./infrastructure/mongo/schema/balance.schema'
 const { historySchema } = require('./infrastructure/mongo/schema/history.schema')(mongoConnect.Schema)
 
 const mongoRepository = {
-    UserRepository: {
-        userSchema,
-        model: mongoConnect.model
-    },
-    BalanceRepository:{
-        balanceSchema,
-        model: mongoConnect.model
-    },
-    HistoryRepository:{
-        historySchema,
-        model: mongoConnect.model
-    }
+    model: mongoConnect.model,
+    UserRepository: {userSchema},
+    BalanceRepository:{balanceSchema,},
+    HistoryRepository:{historySchema,}
 }
 
 const startServer = require("./infrastructure/web/index")(express, mongoRepository);
