@@ -21,7 +21,7 @@ module.exports = (repository) => {
             const { balance, rut } = req.body;
             let currentBalance = await findCurrentBalance(rut);
             currentBalance.balance = currentBalance.balance + parseInt(balance);
-            Balance.update({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
+            Balance.updateOne({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
                 .then((r) => {
                     const history = new History({ date:Date(), rut: rut, balance: balance, to: rut, action: "deposit"});
                     history.save()
@@ -38,7 +38,7 @@ module.exports = (repository) => {
             } else {
                 currentBalance.balance = currentBalance.balance - parseInt(balance);
             }
-            Balance.update({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
+            Balance.updateOne({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
                 .then((r) => {
                     const history = new History({ date:Date(), rut: rut, balance: balance, to: rut, action: "withdraw"});
                     history.save()
@@ -60,11 +60,11 @@ module.exports = (repository) => {
                     currentBalance.balance = currentBalance.balance - parseInt(balance);
                     accountBalance.balance = accountBalance.balance + parseInt(balance);
                 }
-                Balance.update({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
+                Balance.updateOne({ _id: currentBalance._id }, currentBalance, { upsert: true, setDefaultsOnInsert: true })
                     .then((r) => {
                         const history = new History({ date:Date(), rut: rut, balance: balance, to: accountBalance.rut, action: "transferOut"});
                         history.save()
-                        Balance.update({ _id: accountBalance._id }, accountBalance, { upsert: true, setDefaultsOnInsert: true })
+                        Balance.updateOne({ _id: accountBalance._id }, accountBalance, { upsert: true, setDefaultsOnInsert: true })
                         .then((r) => {
                             const history = new History({ date:Date(), rut: accountBalance.rut, balance: balance, to: rut, action: "transferIn"});
                             history.save()
