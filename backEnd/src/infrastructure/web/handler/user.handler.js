@@ -1,36 +1,24 @@
-const { USER_COLLECTION } = process.env;
-const { BALANCE_COLLECTION } = process.env;
-const { OK, INTERNAL_SERVER_ERROR } = require("http-status-codes");
-const balanceHandler = require('./balance.handler');
-
+const { USER_COLLECTION, BALANCE_COLLECTION } = process.env;
 module.exports = (repository) => {
-
-    const { UserRepository } = repository;
-    const User = UserRepository.model(USER_COLLECTION, UserRepository.userSchema);
-    const { BalanceRepository } = repository;
-    const Balance = BalanceRepository.model(BALANCE_COLLECTION, BalanceRepository.balanceSchema);
-    const { balanceCero } = balanceHandler(repository);
-    
-
+    const { UserRepository, BalanceRepository, model } = repository;
+    const User = model(USER_COLLECTION, UserRepository.userSchema);
+    const Balance = model(BALANCE_COLLECTION, BalanceRepository.balanceSchema);
+    const createCount = async (rut) => {
+        const balance = new Balance({ balance: 0, rut });
+        return await balance.save().then(async (r) => true)
+            .catch((e) => { console.log(e); return false });
+    }
     return {
-        saveUser: async (req, res) => {
-            const { name, password, rut, email } = req.body;
+        saveUser: async ({ name, password, rut, email }) => {
             const user = new User({ name, password, rut, email });
-            const balance = new Balance({ balance: 0, rut });
-            await balance.save();
-
-            await user.save()
-            .then((r) => res.status(OK).json(r))
-            .catch((e) => res.status(INTERNAL_SERVER_ERROR).send(e));
-
+            return await user.save()
+                .then(async (r) => createCount(rut))
+                .catch((e) => { console.log(e); return false })
         },
-        login: async (req, res) => {
-            const { password, rut } = req.body;
-
-            await User.findOne({ password, rut }).exec()
-                .then((r) => res.status(OK).json(r))
-                .catch((e) => res.status(INTERNAL_SERVER_ERROR).send(e))
-
+        login: async ({ password, rut }) => {
+            return await User.findOne({ password, rut }).exec()
+                .then((r) =>r)
+                .catch((e) => { console.log(e); return false });
         },
     };
 };
