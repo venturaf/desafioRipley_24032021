@@ -27,7 +27,7 @@ module.exports = (repository) => {
             let currentBalance = await findCurrentBalance(rut);
             currentBalance.balance = currentBalance.balance + parseInt(balance);
             return await Balance.updateOne({ _id: currentBalance._id }, currentBalance)
-                .then(async (r) => r, await saveHistory({ from: rut, balance, to: rut, action: DEPOSIT }))
+                .then(async (r) => await saveHistory({ from: rut, balance, to: rut, action: DEPOSIT }))
                 .catch((e) => { console.log(e); return false; });
         },
         withdrawBalance: async ({ balance, rut }) => {
