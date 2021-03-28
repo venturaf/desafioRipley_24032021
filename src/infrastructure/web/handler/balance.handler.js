@@ -1,10 +1,10 @@
 const { BALANCE_COLLECTION, HISTORY_COLLECTION } = process.env;
-const DEPOSIT = "deposit";
-const WITHDRAW = "withdraw";
-const INSUFFICENT_BALANCE = "Insufficient balance ";
-const COUNT_NOT_EXISTS = "Account to transfer does not exist";
-const TRASNFER_OUT = "transferOut";
-const TRANSFER_IN = "transferIn";
+const DEPOSIT = "Deposito";
+const WITHDRAW = "Retiro";
+const INSUFFICENT_BALANCE = "El monto solicitado es mayor al disponible";
+const COUNT_NOT_EXISTS = "La cuenta a transferir no existe";
+const TRASNFER_OUT = "Transferencia";
+const TRANSFER_IN = "Transferencia";
 module.exports = (repository) => {
     const { BalanceRepository, model, HistoryRepository } = repository;
     const Balance = model(BALANCE_COLLECTION, BalanceRepository.balanceSchema);
@@ -58,7 +58,7 @@ module.exports = (repository) => {
             accountBalance.balance = accountBalance.balance + parseInt(balance);
             transferOperation = await Balance.updateOne({ _id: accountBalance._id }, accountBalance)
                 .then(async (r) => {
-                    return await saveHistory({ from: rut, balance, to: account, action: TRANSFER_IN })
+                    return await saveHistory({ from: account, balance, to: rut, action: TRANSFER_IN })
                 })
                 .catch((e) => { console.log(e); return false; });
             return transferOperation;

@@ -1,9 +1,12 @@
 const userHandler = require('./../handler/user.handler');
 const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = require("http-status-codes");
+
+const COUNT_SUCCESS = "La cuenta a sido creada con exisito";
+
 module.exports = (router, repository) => {
   const { saveUser, login } = userHandler(repository);
   router.post('/', async (req, res) => {
-    if (await saveUser(req.body)) res.status(OK).json("User Created successfull")
+    if (await saveUser(req.body)) res.status(OK).json(COUNT_SUCCESS)
     else res.status(INTERNAL_SERVER_ERROR).json("An error ocurre while creating a user")
   });
   router.post('/login', async (req, res) => {
