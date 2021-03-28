@@ -3,7 +3,7 @@ const { validBalance } = require('../midleware/balance.midleware');
 const { StatusCodes } = require("http-status-codes");
 module.exports = (router, repository) => {
   const { currentBalance, depositBalance, withdrawBalance, transferBalance } = balanceHandler(repository);
-  router.get('/:rut', async (req, res) => {
+  router.get('/current/:rut', async (req, res) => {
     const balance = await currentBalance(req.params);
     if (balance && balance.rut) res.status(StatusCodes.OK).json(balance);
     else res.status(StatusCodes.NOT_FOUND).json(balance);
