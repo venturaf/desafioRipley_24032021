@@ -15,13 +15,13 @@ module.exports = (router, repository) => {
   });
   router.post('/withdraw', validBalance, async (req, res) => {
     const isDosited = await withdrawBalance(req.body);
-    if (isDosited && typeof isDosited === 'string') res.status(StatusCodes.NOT_ACCEPTABLE).json(isDosited);
+    if (isDosited && typeof isDosited === 'string') res.status(StatusCodes.OK).json(isDosited);
     else if (isDosited) res.status(StatusCodes.OK).json("Retiro exitoso");
     else res.status(StatusCodes.OK).json("Algo a ocurrido mientras hacia el retiro");
   });
   router.post('/transfer', validBalance, async (req, res) => {
     const isDosited = await transferBalance(req.body);
-    if (isDosited && typeof isDosited === 'string') res.status(StatusCodes.NOT_ACCEPTABLE).json(isDosited);
+    if (isDosited && typeof isDosited === 'string') res.status(StatusCodes.OK).json(isDosited);
     else if (isDosited) res.status(StatusCodes.OK).json("Transferencia exitosa");
     else res.status(StatusCodes.OK).json("Algo a ocurrido mientras hacia la transferencia");
   });
